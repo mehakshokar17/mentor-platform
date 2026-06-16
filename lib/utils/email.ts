@@ -66,13 +66,13 @@ export async function sendBookingConfirmation(payload: BookingEmailPayload) {
 
   const results = await Promise.allSettled([
     resend.emails.send({
-      from: 'SSB Mentors <noreply@ssb-mentors.com>',
+      from: 'SSB Mentor Platform <noreply@thenudgee.com>',
       to: studentEmail,
       subject,
       html,
     }),
     resend.emails.send({
-      from: 'SSB Mentors <noreply@ssb-mentors.com>',
+      from: 'SSB Mentor Platform <noreply@thenudgee.com>',
       to: mentorEmail,
       subject,
       html,
@@ -87,7 +87,7 @@ export async function sendFeedbackReminder(studentEmail: string, studentName: st
   if (!resend) return
 
   await resend.emails.send({
-    from: 'SSB Mentors <noreply@ssb-mentors.com>',
+    from: 'SSB Mentor Platform <noreply@thenudgee.com>',
     to: studentEmail,
     subject: `📝 How was your session with ${mentorName}?`,
     html: `
