@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Navbar from '@/components/shared/Navbar'
+import { isAdminEmail } from '@/lib/auth/admin'
 
 export default async function StudentLayout({ children }: { children: React.ReactNode }) {
   const supabase = createClient()
@@ -17,7 +18,7 @@ export default async function StudentLayout({ children }: { children: React.Reac
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar role="student" userName={profile?.full_name ?? user.email ?? 'Student'} />
+      <Navbar role="student" userName={profile?.full_name ?? user.email ?? 'Student'} isAdmin={isAdminEmail(user.email)} />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {children}
       </main>

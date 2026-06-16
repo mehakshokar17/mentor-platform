@@ -3,13 +3,14 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { GraduationCap, LayoutDashboard, Users, Calendar, LogOut, Menu, X } from 'lucide-react'
+import { GraduationCap, LayoutDashboard, Users, Calendar, LogOut, Menu, X, Shield } from 'lucide-react'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 
 interface NavbarProps {
   role: 'student' | 'mentor'
   userName: string
+  isAdmin?: boolean
 }
 
 const studentLinks = [
@@ -24,7 +25,7 @@ const mentorLinks = [
   { href: '/mentor/sessions',     label: 'Sessions', icon: Users },
 ]
 
-export default function Navbar({ role, userName }: NavbarProps) {
+export default function Navbar({ role, userName, isAdmin }: NavbarProps) {
   const pathname = usePathname()
   const router = useRouter()
   const supabase = createClient()
@@ -67,6 +68,15 @@ export default function Navbar({ role, userName }: NavbarProps) {
                 {label}
               </Link>
             ))}
+            {isAdmin && (
+              <Link
+                href="/admin/dashboard"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-900 hover:text-white transition-colors"
+              >
+                <Shield className="w-4 h-4" />
+                Admin
+              </Link>
+            )}
           </div>
 
           {/* Right side */}
