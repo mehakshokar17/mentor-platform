@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Calendar, Clock, ExternalLink, CheckCircle } from 'lucide-react'
-import { formatDate, formatTime, isSessionUpcoming } from '@/lib/utils/meeting'
+import { formatDate, formatTime, isSessionUpcoming, meetingLabel } from '@/lib/utils/meeting'
 import FeedbackForm from '@/app/student/sessions/[id]/FeedbackForm'
 
 export default async function MentorSessionDetailPage({ params }: { params: { id: string } }) {
@@ -81,7 +81,7 @@ export default async function MentorSessionDetailPage({ params }: { params: { id
 
             <div className="flex flex-wrap gap-2 mt-4">
               <a href={booking.meeting_url} target="_blank" rel="noopener noreferrer" className="btn-primary">
-                <ExternalLink className="w-4 h-4" /> Join Meeting (Jitsi)
+                <ExternalLink className="w-4 h-4" /> {meetingLabel(booking.meeting_url)}
               </a>
             </div>
           </div>

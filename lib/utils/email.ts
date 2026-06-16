@@ -36,6 +36,7 @@ export async function sendBookingConfirmation(payload: BookingEmailPayload) {
   const [h, m] = sessionTime.split(':').map(Number)
   const suffix = h >= 12 ? 'PM' : 'AM'
   const formattedTime = `${h % 12 || 12}:${m.toString().padStart(2, '0')} ${suffix} IST`
+  const joinLabel = meetingUrl.includes('meet.google.com') ? 'Join Google Meet' : 'Join Meeting'
 
   const html = `
     <div style="font-family:sans-serif;max-width:560px;margin:auto;background:#f8f9ff;padding:32px;border-radius:12px">
@@ -52,7 +53,7 @@ export async function sendBookingConfirmation(payload: BookingEmailPayload) {
       </div>
       <div style="text-align:center;margin:24px 0">
         <a href="${meetingUrl}" style="background:#4f46e5;color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:600;display:inline-block">
-          Join Meeting (Jitsi)
+          ${joinLabel}
         </a>
       </div>
       <p style="color:#6b7280;font-size:13px;text-align:center">

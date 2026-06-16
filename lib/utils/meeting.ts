@@ -7,6 +7,13 @@ export function generateMeetingUrl(bookingId: string): string {
   return `https://meet.jit.si/${roomName}`
 }
 
+// Label the join button based on which provider actually issued the link.
+export function meetingLabel(url?: string | null): string {
+  if (url?.includes('meet.google.com')) return 'Join Google Meet'
+  if (url?.includes('meet.jit.si')) return 'Join Meeting (Jitsi)'
+  return 'Join Meeting'
+}
+
 export function formatTime(time: string): string {
   const [h, m] = time.split(':').map(Number)
   const suffix = h >= 12 ? 'PM' : 'AM'
