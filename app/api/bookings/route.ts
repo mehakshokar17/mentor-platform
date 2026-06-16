@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { generateMeetingUrl } from '@/lib/utils/meeting'
+import { createMeetEvent } from '@/lib/utils/google-meet'
 import { sendBookingConfirmation } from '@/lib/utils/email'
 
 export async function POST(req: NextRequest) {
@@ -59,7 +60,23 @@ export async function POST(req: NextRequest) {
 
     // Create the booking
     const bookingId = crypto.randomUUID()
-    const meetingUrl = generateMeetingUrl(bookingId)
+
+    // Prefer a real Google Meet link + Google Calendar invite (when configured);
+    // otherwise fall back to an instant Jitsi room. Calendar invites to both
+    // parties are sent by Google automatically (sendUpdates=all).
+    const studentEmail = studentProfile?.email ?? user.email!
+    const meet = await createMeetEvent({
+      summary: `Mentorship: ${studentProfile?.full_name ?? 'Student'} × ${mentor?.name ?? 'Mentor'}`,
+      description: notes?.trim()
+        ? `SSB mentorship session.\n\nStudent's note: ${notes.trim()}`
+        : 'SSB mentorship session.',
+      date: slot.slot_date,
+      startTime: slot.start_time,
+      endTime: slot.end_time,
+      attendees: [studentEmail, mentor?.email].filter(Boolean) as string[],
+      requestId: bookingId,
+    })
+    const meetingUrl = meet?.meetingUrl ?? generateMeetingUrl(bookingId)
 
     const { error: bookingErr } = await admin.from('bookings').insert({
       id: bookingId,
