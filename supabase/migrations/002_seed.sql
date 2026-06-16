@@ -29,7 +29,7 @@ insert into public.mentors (
   name,
   email,
   linkedin_url,
-  current_role,
+  "current_role",
   organization,
   years_experience,
   skills,

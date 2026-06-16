@@ -32,7 +32,7 @@ create table public.mentors (
   name              text not null,
   email             text not null,
   linkedin_url      text,
-  current_role      text not null,
+  "current_role"    text not null,
   organization      text not null,
   years_experience  int not null,
   skills            text[] not null default '{}',
