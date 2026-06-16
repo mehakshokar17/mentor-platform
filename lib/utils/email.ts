@@ -1,6 +1,12 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Lazily construct the client. The Resend constructor throws when no API key
+// is present, so instantiating at module scope would break the build/runtime
+// whenever RESEND_API_KEY is unset (email is optional). Construct on demand.
+function getResend(): Resend | null {
+  const key = process.env.RESEND_API_KEY
+  return key ? new Resend(key) : null
+}
 
 interface BookingEmailPayload {
   studentEmail: string
@@ -24,6 +30,9 @@ export async function sendBookingConfirmation(payload: BookingEmailPayload) {
   const formattedDate = new Date(sessionDate + 'T00:00:00').toLocaleDateString('en-IN', {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
   })
+  const resend = getResend()
+  if (!resend) return []
+
   const [h, m] = sessionTime.split(':').map(Number)
   const suffix = h >= 12 ? 'PM' : 'AM'
   const formattedTime = `${h % 12 || 12}:${m.toString().padStart(2, '0')} ${suffix} IST`
@@ -74,6 +83,9 @@ export async function sendBookingConfirmation(payload: BookingEmailPayload) {
 }
 
 export async function sendFeedbackReminder(studentEmail: string, studentName: string, mentorName: string, bookingId: string, appUrl: string) {
+  const resend = getResend()
+  if (!resend) return
+
   await resend.emails.send({
     from: 'SSB Mentors <noreply@ssb-mentors.com>',
     to: studentEmail,
