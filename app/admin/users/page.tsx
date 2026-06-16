@@ -30,7 +30,7 @@ export default async function AdminUsersPage() {
           </thead>
           <tbody>
             {(users ?? []).map((u: any) => {
-              const admin = isAdminEmail(u.email)
+              const userIsAdmin = isAdminEmail(u.email)
               return (
                 <tr key={u.id} className="border-b border-gray-50 last:border-0">
                   <td className="px-4 py-3">
@@ -43,7 +43,7 @@ export default async function AdminUsersPage() {
                   </td>
                   <td className="px-4 py-3 text-gray-500">{u.email}</td>
                   <td className="px-4 py-3">
-                    {admin ? (
+                    {userIsAdmin ? (
                       <span className="inline-flex items-center gap-1 badge bg-gray-900 text-white">
                         <Shield className="w-3 h-3" /> admin
                       </span>
