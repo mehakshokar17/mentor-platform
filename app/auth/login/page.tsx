@@ -87,21 +87,6 @@ export default function LoginPage() {
               {loading ? 'Signing in…' : 'Sign in'}
             </button>
           </form>
-
-          {/* Demo credentials hint */}
-          <div className="mt-6 pt-6 border-t border-gray-100">
-            <p className="text-xs text-gray-400 font-medium uppercase tracking-wide mb-3">Demo accounts</p>
-            <div className="space-y-2 text-xs text-gray-500">
-              <div className="flex justify-between bg-gray-50 rounded-lg px-3 py-2">
-                <span>Student</span>
-                <span className="font-mono">shanmuga@ssb.scaler.com / Student@2024</span>
-              </div>
-              <div className="flex justify-between bg-gray-50 rounded-lg px-3 py-2">
-                <span>Mentor</span>
-                <span className="font-mono">mehakshokar17@gmail.com / Mentor@2024</span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
